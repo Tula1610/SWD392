@@ -1,5 +1,6 @@
 package com.example.backend.model.mongoDB;
 
+import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import com.example.backend.enums.ApplicationStatus;
@@ -17,6 +18,10 @@ public class Application {
 
     @Id
     String id;
+
+    @NotNull(message = "Application ID is required")
+    @Size(min = 8, max = 8, message = "Application ID must be 8 characters")
+    String applicationID;
 
     @NotNull(message = "Managed by user ID is required")
     String managedByUserId;  // Lưu ID thay vì @DBRef

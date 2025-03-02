@@ -1,14 +1,19 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.request.Restaurant.CreateRestaurantDTO;
+import com.example.backend.dto.request.Restaurant.UpdateRestaurantDTO;
+import com.example.backend.dto.response.ApiResponse;
 import com.example.backend.model.mongoDB.Restaurant;
+import org.springframework.http.ResponseEntity;
+
 import java.util.List;
-import java.util.Optional;
 
 public interface RestaurantService {
-    Restaurant createRestaurant(Restaurant restaurant);
-    Optional<Restaurant> getRestaurantById(String restaurantID);
-    List<Restaurant> getAllRestaurants();
-    Restaurant updateRestaurant(String restaurantID, Restaurant restaurant);
-    void deleteRestaurant(String restaurantID);
+    Restaurant createRestaurant(CreateRestaurantDTO request);
+    ResponseEntity<ApiResponse<Restaurant>> updateRestaurant(String restaurantId, UpdateRestaurantDTO request);
+    boolean deleteRestaurant(String restaurantId);
+
+    Restaurant getRestaurantById(String restaurantId);
     Restaurant findByLocation(String location);
+    List<Restaurant> getAllRestaurants();
 }

@@ -1,7 +1,9 @@
 package com.example.backend.dto.response;
 
 import com.example.backend.enums.RoleName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *    {
@@ -11,6 +13,8 @@ import lombok.Data;
  *    }
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ResponseData {
     private int status = 200;
     private boolean isSuccess = true;

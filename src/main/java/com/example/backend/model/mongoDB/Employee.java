@@ -20,6 +20,10 @@ public class Employee {
     @Id
      String id;
 
+    @NotNull(message = "Employee ID is required")
+    @Size(min = 8, max = 8, message = "Employee ID must be 8 characters")
+    String employeeID;
+
     @NotNull(message = "Status is required")
      EmployeeStatus status;
 

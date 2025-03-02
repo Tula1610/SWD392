@@ -4,5 +4,5 @@ public enum RoleName {
     ADMIN,
     RESTAURANT_MANAGER,
     STORE_MANAGER,
-    NULL
+    DRAFT
 }

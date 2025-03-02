@@ -17,18 +17,22 @@ import java.util.Set;
 public class Restaurant {
 
     @Id
-    String id;  // Đổi từ restaurantID -> id theo chuẩn MongoDB
+    String id;
+
+    @NotNull(message = "Restaurant ID is required")
+    @Size(min = 8, max = 8, message = "Restaurant ID must be 8 characters")
+    String restaurantID;
 
     @NotNull(message = "Location is required")
     @Size(max = 255, message = "Location must be less than 255 characters")
     String location;
 
     @NotNull(message = "Rating is required")
-    @PositiveOrZero(message = "Rating must be positive or zero")  // Đảm bảo giá trị hợp lệ
-    double rating;  // Dùng double thay vì String để lưu rating
+    @PositiveOrZero(message = "Rating must be positive or zero")
+    double rating;  //
 
     @NotNull(message = "Status is required")
     RestaurantStatus status;
 
-    Set<String> employeeIds;  // Lưu danh sách ID thay vì sử dụng @DBRef
+    Set<String> employeeIds;
 }

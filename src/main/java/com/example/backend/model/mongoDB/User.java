@@ -19,6 +19,10 @@ public class User {
     @Id
     String id;
 
+    @NotNull(message = "User ID is required")
+    @Size(min = 8, max = 8, message = "User ID must be 8 characters")
+    String userID;
+
     @NotNull(message = "First name is required")
     @Size(max = 100, message = "First name must be less than 100 characters")
     String firstName;

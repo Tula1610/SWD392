@@ -52,13 +52,16 @@ public class CustomFilterSecurity {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         String[] publicUrls = { "/login/**", "/login.html",
                 "/api-docs/**", "/swagger-ui/**", "/swagger-ui.html",
+//                "/api/users/**",
                 "/swagger-ui-custom",
                 "/oauth2/authorization/google",
                 "/login/oauth2/code/google",
                 "/login/google",
                 "/v3/api-docs/**" };
 
-        String[] adminUrls = { "/api/users/**", "/index.html" };
+        String[] adminUrls = { "/api/users/**","/api/admin/users/**", "/index.html",
+                                "/api/employees/**",
+                                "/api/restaurants/**" };
 
         http
                 .cors().disable()

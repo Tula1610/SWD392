@@ -1,9 +1,7 @@
 package com.example.backend.controller.Login;
 
-import com.example.backend.dto.response.ResponseData;
 import com.example.backend.model.mongoDB.User;
 import com.example.backend.repository.UserRepository;
-import com.example.backend.service.LoginService;
 import com.example.backend.util.JwtUtilHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +24,6 @@ import java.util.Map;
 public class LoginController {
 
     @Autowired
-    private LoginService loginService;
-    @Autowired
     private JwtUtilHelper jwtUtilHelper;
     @Autowired
     private UserRepository userRepository;
@@ -42,38 +38,6 @@ public class LoginController {
     }
 
 
-    @PostMapping()
-    ResponseEntity<?> signin(@RequestBody LoginDTO request) {
-        ResponseData responseData = new ResponseData();
-
-        /*
-         * Lấy key
-         * SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-         * String encrypKey = Encoders.BASE64.encode(secretKey.getEncoded());
-         * System.out.println(encrypKey);
-         */
-
-        if (loginService.checkLogin(request)) {
-            String token = jwtUtilHelper.genarateToken(request.getUsername());
-
-
-
-            User user = loginService.getUserByUsername(request.getUsername());
-            responseData.setData(token);
-            responseData.setRole(user.getRole());
-            if (user.getRole().equals("ADMIN")) {
-                responseData.setRedirectUrl("/index.html");
-            } else {
-                responseData.setRedirectUrl("/login/google");
-            }
-        } else {
-            responseData.setData("");
-            responseData.setDescription("Invalid credentials!");
-            responseData.setSuccess(false);
-        }
-
-        return new ResponseEntity<>(responseData, HttpStatus.OK);
-    }
 
     @GetMapping("/google")
     public ResponseEntity<Map<String, Object>> user(@AuthenticationPrincipal OidcUser principal,
@@ -92,9 +56,8 @@ public class LoginController {
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found in database");
         }
-        String username = user.getUsername();
 
-        String jwtToken = jwtUtilHelper.genarateToken(username); // Generate JWT with username
+        String jwtToken = jwtUtilHelper.genarateToken(email); // Generate JWT with username
 
         Map<String, Object> response = new HashMap<>();
         response.put("name", principal.getAttribute("name"));
@@ -102,6 +65,7 @@ public class LoginController {
         response.put("picture", principal.getAttribute("picture"));
         response.put("access_token", accessToken);
         response.put("jwt_token", jwtToken);
+        response.put("role", user.getRole().name());
         response.put("redirectUrl", "/index.html");
 
         return ResponseEntity.ok(response);

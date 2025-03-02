@@ -1,18 +1,14 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.request.Application.CreateApplicationDTO;
+import com.example.backend.dto.request.Application.UpdateApplicationDTO;
 import com.example.backend.model.mongoDB.Application;
-import com.example.backend.enums.ApplicationStatus;
-import com.example.backend.enums.ApplicationType;
 import java.util.List;
-import java.util.Optional;
 
 public interface ApplicationService {
-    Application createApplication(Application application);
-    Optional<Application> getApplicationById(String applicationID);
+    Application createApplication(CreateApplicationDTO request);
+    Application updateApplication(String applicationId, UpdateApplicationDTO request);
+    boolean deleteApplication(String applicationId);
+    Application getApplicationById(String applicationId);
     List<Application> getAllApplications();
-    List<Application> getApplicationsByManagerId(String userID);
-    List<Application> getApplicationsByType(ApplicationType applicationType);
-    List<Application> getApplicationsByStatus(ApplicationStatus status);
-    Application updateApplication(String applicationID, Application application);
-    void deleteApplication(String applicationID);
 }

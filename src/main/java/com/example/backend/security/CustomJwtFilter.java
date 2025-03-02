@@ -37,12 +37,12 @@ public class CustomJwtFilter extends OncePerRequestFilter {
 
         String token = getTokenFromHeader(request);
         if (token != null && jwtUtilHelper.verifyToken(token)) {
-            String username = jwtUtilHelper.getUsernameFromToken(token);
-            User user = userRepository.findByUsername(username);
+            String email = jwtUtilHelper.getUsernameFromToken(token);
+            User user = userRepository.findByEmail(email);
             if (user != null) {
                 // Gán quyền dựa trên role từ database
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        username, null, Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
+                        email, null, Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
                 );
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
